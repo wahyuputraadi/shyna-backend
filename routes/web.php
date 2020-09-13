@@ -13,8 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'DasboardController@index' );
+// menambahkan route halaman pertama = dasboard
+Route::get('/', 'DasboardController@index' ) ->name('dashboard');
 
-Auth::routes();
+// Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+// menonaktifkan register
+Auth::routes(['register' => false]);
+
+Route::resource('products', 'ProductController');
+// Route::get('/home', 'HomeController@index')->name('home');

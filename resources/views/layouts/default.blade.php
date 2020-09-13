@@ -23,6 +23,8 @@
 </head>
 
 <body>
+
+    {{-- pindah ke views/includes --}}
     
     <!-- Sidebar Move -->
     @include('includes.sidebar')
