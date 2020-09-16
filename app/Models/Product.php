@@ -17,8 +17,9 @@ class Product extends Model
         
     ];
 
+    // menambahkan foto
     public function galleries()
     {
-        // return $this->hasMany(ProductGallery::class,'product_id');
+        return $this->hasMany(ProductGallery::class,'products_id');
     }
 }

@@ -3,10 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Http\Requests\ProductRequest;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
+
 
 class ProductController extends Controller
 {
+
+    // pindahan dari home controller 
+    // fungsinya agar ketika cms dikunjungi user wajib login
+      /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
+
     /**
     * Display a listing of the resource.
     *
@@ -23,16 +43,28 @@ class ProductController extends Controller
         ]);
     }
 
+
+
+
+
+
+
     /**
     * Show the form for creating a new resource.
     *
     * @return \Illuminate\Http\Response
     */
     
+    // menambahkan tambah barang
     public function create()
-    {
-        //
+    {      
+        return view('pages.products.create');
     }
+
+
+
+
+
 
     /**
      * Store a newly created resource in storage.
@@ -40,11 +72,21 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
     */
-
-    public function store(Request $request)
+    // menambahkan data
+    public function store(ProductRequest $request)
     {
-        //
+        $data = $request->all();
+        $data['slug'] = Str::slug($request->name);
+
+        Product::create($data);
+        // apabila halaman selesai akan kembali ke halaman berikut
+        return redirect()->route('products.index');
     }
+
+
+
+    
+
 
     /**
     * Display the specified resource. 
@@ -52,11 +94,14 @@ class ProductController extends Controller
     * @param  int  $id
     * @return \Illuminate\Http\Response
     */
-    
      public function show($id)
     {
-        //
+     
     }
+
+
+
+
 
     /**
     * Show the form for editing the specified resource.
@@ -64,11 +109,19 @@ class ProductController extends Controller
     * @param  int  $id
     * @return \Illuminate\Http\Response
     */
-    
+    // edit product
     public function edit($id)
     {
-        //
+           //menambahkan edit produk
+           $items = Product::findOrFail($id);
+
+           return view('pages.products.edit')->with([
+            'items' => $items
+        ]);
     }
+
+
+
 
     /**
     * Update the specified resource in storage.
@@ -78,10 +131,22 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function update(Request $request, $id)
+    public function update(ProductRequest $request, $id)
     {
         //
+        $data = $request->all();
+        $data['slug'] = Str::slug($request->name);
+
+        $items = Product::findOrFail($id);
+        $items->update($data);
+        
+        return redirect()->route('products.index');
     }
+
+
+
+
+
 
     /**
      * Remove the specified resource from storage.
@@ -92,6 +157,9 @@ class ProductController extends Controller
 
     public function destroy($id)
     {
-        //
+        $items = Product::findorFail($id);
+        $items->delete();
+
+        return redirect()->route('products.index');
     }
 }

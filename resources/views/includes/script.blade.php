@@ -23,6 +23,19 @@
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.9.0/dist/fullcalendar.min.js"></script>
     <script src="{{asset('assets/js/init/fullcalendar-init.js')}}"></script>
 
+    {{-- menambahkan cekeditor --}}
+    <script src="https://cdn.ckeditor.com/ckeditor5/22.0.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+                .create( document.querySelector( '.cekeditor' ) )
+                .then( editor => {
+                        console.log( editor );
+                } )
+                .catch( error => {
+                        console.error( error );
+                } );
+    </script>
+     {{-- Akhir menambahkan cekeditor --}}
 
     <!-- script -->
 
